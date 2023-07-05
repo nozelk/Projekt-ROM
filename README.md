@@ -7,7 +7,7 @@ Ta repozitorij vsebuje projekt, v katerem analiziram NBA ekipe. Ta projekt je pr
 3. Poskušal ugotoviti zakaj narasča points per game.
 
 ### Posnetek predstavitve
-youtube.com/video/kXKowl6UfkQ
+https://youtube.com/video/kXKowl6UfkQ
 
 
 ©Nejc Košmrl
