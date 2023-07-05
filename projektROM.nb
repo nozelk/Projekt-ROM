@@ -1,0 +1,1797 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 13.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     71498,       1789]
+NotebookOptionsPosition[     68383,       1728]
+NotebookOutlinePosition[     68788,       1744]
+CellTagsIndexPosition[     68745,       1741]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Projekt za Ra\[CHacek]unalni\[SHacek]ka orodja v matematiki", "Title",
+ CellChangeTimes->{{3.8974883526718235`*^9, 
+  3.897488355715726*^9}},ExpressionUUID->"4eeb37b8-1bdc-499c-9de9-\
+e3016d4c3fc7"],
+
+Cell["\<\
+Analiza NBA ekip med leti 2014 in 2023
+4. 7. 2023\
+\>", "Subtitle",
+ CellChangeTimes->{{3.8974883862971745`*^9, 
+  3.897488456129588*^9}},ExpressionUUID->"eb83e5e9-3fcf-4939-b571-\
+6b23657d85af"],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Pridobivanje podatkov
+\
+\>", "Section",
+ CellChangeTimes->{{3.897488476022058*^9, 
+  3.897488480848795*^9}},ExpressionUUID->"38d06b4a-202d-475d-a188-\
+0720245dc2bb"],
+
+Cell["\<\
+Podatke sem pridobil s strani www.basketball-reference.com.\[LineSeparator]Za \
+sezone med 2014 in 2023 sem podatke izvozil v csv datoteke, ki so shranjene v \
+Podatki/Ekipe/NBA_{leto}ekipe.cvs\
+\>", "Text",
+ CellChangeTimes->{{3.89748849936193*^9, 3.8974885116732893`*^9}, {
+  3.8974886407924905`*^9, 3.8974886511733003`*^9}, {3.897488683167258*^9, 
+  3.897488789908193*^9}},ExpressionUUID->"c65ab7be-67c7-4582-8239-\
+c6d9c05b800b"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Povpre\[CHacek]je ekip
+\
+\>", "Section",
+ CellChangeTimes->{{3.8974888875368567`*^9, 
+  3.8974889479647517`*^9}},ExpressionUUID->"e8f185f5-355a-4d30-8712-\
+f8768ef6db63"],
+
+Cell["\<\
+Spodaj imamo graf ki nam prikazuje povpre\[CHacek]je vseh metov, metov za tri \
+to\[CHacek]ke in metov za dve to\[CHacek]ki.\
+\>", "Text",
+ CellChangeTimes->{{3.8974889925443745`*^9, 
+  3.897489079182026*^9}},ExpressionUUID->"154da5d3-17ed-4e9b-a1e0-\
+065f5e9a907f"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+  "dataDirectory", " ", "=", " ", 
+   "\"\<C:\\\\Users\\\\kosmr\\\\OneDrive\\\\Desktop\\\\ROM\\\\Podatki\\\\\
+Ekipe\\\\\>\""}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"years", " ", "=", " ", 
+   RowBox[{"Range", "[", 
+    RowBox[{"2014", ",", " ", "2023"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"totalAttempts", " ", "=", " ", 
+   RowBox[{"{", "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"threePointAttempts", " ", "=", " ", 
+   RowBox[{"{", "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"twoPointAttempts", " ", "=", " ", 
+    RowBox[{"{", "}"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Do", "[", "\n", "  ", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"filePath", " ", "=", " ", 
+       RowBox[{"FileNameJoin", "[", 
+        RowBox[{"{", 
+         RowBox[{"dataDirectory", ",", " ", 
+          RowBox[{"\"\<NBA_\>\"", " ", "<>", " ", 
+           RowBox[{"ToString", "[", "year", "]"}], " ", "<>", " ", 
+           "\"\<ekipe.csv\>\""}]}], "}"}], "]"}]}], ";", "\n", "  ", 
+      RowBox[{"data", " ", "=", " ", 
+       RowBox[{"Import", "[", 
+        RowBox[{"filePath", ",", " ", "\"\<Data\>\""}], "]"}]}], ";", "\n", 
+      "  ", 
+      RowBox[{"lastRow", " ", "=", " ", 
+       RowBox[{"Last", "[", "data", "]"}]}], ";", "\n", "  ", 
+      RowBox[{"fga", " ", "=", " ", 
+       RowBox[{"lastRow", "[", 
+        RowBox[{"[", "6", "]"}], "]"}]}], ";", "\n", "  ", 
+      RowBox[{"threePa", " ", "=", " ", 
+       RowBox[{"lastRow", "[", 
+        RowBox[{"[", "9", "]"}], "]"}]}], ";", "\n", "  ", 
+      RowBox[{"twoPa", " ", "=", " ", 
+       RowBox[{"lastRow", "[", 
+        RowBox[{"[", "12", "]"}], "]"}]}], ";", "\n", "  ", 
+      RowBox[{"AppendTo", "[", 
+       RowBox[{"totalAttempts", ",", " ", 
+        RowBox[{"{", 
+         RowBox[{"year", ",", " ", "fga"}], "}"}]}], "]"}], ";", "\n", "  ", 
+      RowBox[{"AppendTo", "[", 
+       RowBox[{"threePointAttempts", ",", " ", 
+        RowBox[{"{", 
+         RowBox[{"year", ",", " ", "threePa"}], "}"}]}], "]"}], ";", "\n", 
+      "  ", 
+      RowBox[{"AppendTo", "[", 
+       RowBox[{"twoPointAttempts", ",", " ", 
+        RowBox[{"{", 
+         RowBox[{"year", ",", " ", "twoPa"}], "}"}]}], "]"}]}], ",", "\n", 
+     "  ", 
+     RowBox[{"{", 
+      RowBox[{"year", ",", " ", "years"}], "}"}]}], "\n", "]"}], ";"}], 
+  "\n"}], "\n", 
+ RowBox[{"ListPlot", "[", "\n", "  ", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+    "totalAttempts", ",", " ", "threePointAttempts", ",", " ", 
+     "twoPointAttempts"}], "}"}], ",", "\n", "  ", 
+   RowBox[{"Joined", " ", "->", " ", "True"}], ",", "\n", "  ", 
+   RowBox[{"PlotStyle", " ", "->", " ", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"Directive", "[", 
+       RowBox[{"Blue", ",", " ", "Thick"}], "]"}], ",", " ", 
+      RowBox[{"Directive", "[", 
+       RowBox[{"Red", ",", " ", "Thick"}], "]"}], ",", " ", 
+      RowBox[{"Directive", "[", 
+       RowBox[{"Green", ",", " ", "Thick"}], "]"}]}], "}"}]}], ",", "\n", 
+   "  ", 
+   RowBox[{"Frame", " ", "->", " ", "True"}], ",", "\n", "  ", 
+   RowBox[{"FrameLabel", " ", "->", " ", 
+    RowBox[{"{", 
+     RowBox[{
+     "\"\<Leto\>\"", ",", " ", "\"\<\[CapitalSHacek]tevilo poskusov\>\""}], 
+     "}"}]}], ",", "\n", "  ", 
+   RowBox[{
+   "PlotLabel", " ", "->", " ", 
+    "\"\<\[CapitalSHacek]tevilo poskusov (FGA, 3PA, 2PA) v vsakem letu\>\""}],
+    ",", "\n", "  ", 
+   RowBox[{"ImageSize", " ", "->", " ", "Large"}], ",", "\n", "  ", 
+   RowBox[{"Epilog", " ", "->", " ", 
+    RowBox[{"{", "\n", "    ", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"Blue", ",", " ", 
+        RowBox[{"PointSize", "[", "Large", "]"}], ",", " ", 
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{"Tooltip", "[", 
+           RowBox[{
+            RowBox[{"Point", "[", 
+             RowBox[{"totalAttempts", "[", 
+              RowBox[{"[", "i", "]"}], "]"}], "]"}], ",", " ", 
+            RowBox[{"totalAttempts", "[", 
+             RowBox[{"[", "i", "]"}], "]"}]}], "]"}], ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"i", ",", " ", 
+            RowBox[{"Length", "[", "totalAttempts", "]"}]}], "}"}]}], "]"}]}],
+        "}"}], ",", "\n", "    ", 
+      RowBox[{"{", 
+       RowBox[{"Red", ",", " ", 
+        RowBox[{"PointSize", "[", "Large", "]"}], ",", " ", 
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{"Tooltip", "[", 
+           RowBox[{
+            RowBox[{"Point", "[", 
+             RowBox[{"threePointAttempts", "[", 
+              RowBox[{"[", "i", "]"}], "]"}], "]"}], ",", " ", 
+            RowBox[{"threePointAttempts", "[", 
+             RowBox[{"[", "i", "]"}], "]"}]}], "]"}], ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"i", ",", " ", 
+            RowBox[{"Length", "[", "threePointAttempts", "]"}]}], "}"}]}], 
+         "]"}]}], "}"}], ",", "\n", "    ", 
+      RowBox[{"{", 
+       RowBox[{"Green", ",", " ", 
+        RowBox[{"PointSize", "[", "Large", "]"}], ",", " ", 
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{"Tooltip", "[", 
+           RowBox[{
+            RowBox[{"Point", "[", 
+             RowBox[{"twoPointAttempts", "[", 
+              RowBox[{"[", "i", "]"}], "]"}], "]"}], ",", " ", 
+            RowBox[{"twoPointAttempts", "[", 
+             RowBox[{"[", "i", "]"}], "]"}]}], "]"}], ",", " ", 
+          RowBox[{"{", 
+           RowBox[{"i", ",", " ", 
+            RowBox[{"Length", "[", "twoPointAttempts", "]"}]}], "}"}]}], 
+         "]"}]}], "}"}]}], "\n", "  ", "}"}]}], ",", "\n", "  ", 
+   RowBox[{"PlotLegends", " ", "->", " ", 
+    RowBox[{"{", 
+     RowBox[{
+     "\"\<FGA\>\"", ",", " ", "\"\<3PA\>\"", ",", " ", "\"\<2PA\>\""}], 
+     "}"}]}]}], "\n", "]"}], "\n"}], "Code",
+ CellChangeTimes->{{3.8974891068016763`*^9, 3.8974891165589933`*^9}},
+ CellLabel->"In[1]:=",ExpressionUUID->"a6813821-4e55-4bae-8b1f-fb631c44473a"],
+
+Cell[BoxData[
+ TemplateBox[{
+   GraphicsBox[{{}, {{{}, {}, {
+        Hue[0.67, 0.6, 0.6], 
+        Directive[
+         PointSize[0.012833333333333334`], 
+         AbsoluteThickness[1.6], 
+         RGBColor[0, 0, 1], 
+         Thickness[Large]], 
+        LineBox[{{2014., 83.}, {2015., 83.6}, {2016., 84.6}, {2017., 85.4}, {
+         2018., 86.1}, {2019., 89.2}, {2020., 88.8}, {2021., 88.4}, {2022., 
+         88.1}, {2023., 88.3}}]}, {
+        Hue[0.9060679774997897, 0.6, 0.6], 
+        Directive[
+         PointSize[0.012833333333333334`], 
+         AbsoluteThickness[1.6], 
+         RGBColor[1, 0, 0], 
+         Thickness[Large]], 
+        LineBox[{{2014., 21.5}, {2015., 22.4}, {2016., 24.1}, {2017., 27.}, {
+         2018., 29.}, {2019., 32.}, {2020., 34.1}, {2021., 34.6}, {2022., 
+         35.2}, {2023., 34.2}}]}, {
+        Hue[0.1421359549995791, 0.6, 0.6], 
+        Directive[
+         PointSize[0.012833333333333334`], 
+         AbsoluteThickness[1.6], 
+         RGBColor[0, 1, 0], 
+         Thickness[Large]], 
+        LineBox[{{2014., 61.5}, {2015., 61.2}, {2016., 60.5}, {2017., 58.4}, {
+         2018., 57.1}, {2019., 57.2}, {2020., 54.7}, {2021., 53.8}, {2022., 
+         52.9}, {2023., 54.1}}]}}}, {{}, {}}}, {
+    DisplayFunction -> Identity, DisplayFunction -> Identity, AspectRatio -> 
+     NCache[GoldenRatio^(-1), 0.6180339887498948], Axes -> {True, True}, 
+     AxesLabel -> {None, None}, AxesOrigin -> {2013.8125000000048`, 0}, 
+     DisplayFunction :> Identity, Epilog -> {{
+        RGBColor[0, 0, 1], 
+        PointSize[Large], {
+         TagBox[
+          TooltipBox[
+           PointBox[{2014, 83.}], 
+           RowBox[{"{", 
+             RowBox[{"2014", ",", "83.`"}], "}"}]], 
+          Annotation[#, {2014, 83.}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2015, 83.6}], 
+           RowBox[{"{", 
+             RowBox[{"2015", ",", "83.6`"}], "}"}]], 
+          Annotation[#, {2015, 83.6}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2016, 84.6}], 
+           RowBox[{"{", 
+             RowBox[{"2016", ",", "84.6`"}], "}"}]], 
+          Annotation[#, {2016, 84.6}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2017, 85.4}], 
+           RowBox[{"{", 
+             RowBox[{"2017", ",", "85.4`"}], "}"}]], 
+          Annotation[#, {2017, 85.4}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2018, 86.1}], 
+           RowBox[{"{", 
+             RowBox[{"2018", ",", "86.1`"}], "}"}]], 
+          Annotation[#, {2018, 86.1}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2019, 89.2}], 
+           RowBox[{"{", 
+             RowBox[{"2019", ",", "89.2`"}], "}"}]], 
+          Annotation[#, {2019, 89.2}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2020, 88.8}], 
+           RowBox[{"{", 
+             RowBox[{"2020", ",", "88.8`"}], "}"}]], 
+          Annotation[#, {2020, 88.8}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2021, 88.4}], 
+           RowBox[{"{", 
+             RowBox[{"2021", ",", "88.4`"}], "}"}]], 
+          Annotation[#, {2021, 88.4}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2022, 88.1}], 
+           RowBox[{"{", 
+             RowBox[{"2022", ",", "88.1`"}], "}"}]], 
+          Annotation[#, {2022, 88.1}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2023, 88.3}], 
+           RowBox[{"{", 
+             RowBox[{"2023", ",", "88.3`"}], "}"}]], 
+          Annotation[#, {2023, 88.3}, "Tooltip"]& ]}}, {
+        RGBColor[1, 0, 0], 
+        PointSize[Large], {
+         TagBox[
+          TooltipBox[
+           PointBox[{2014, 21.5}], 
+           RowBox[{"{", 
+             RowBox[{"2014", ",", "21.5`"}], "}"}]], 
+          Annotation[#, {2014, 21.5}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2015, 22.4}], 
+           RowBox[{"{", 
+             RowBox[{"2015", ",", "22.4`"}], "}"}]], 
+          Annotation[#, {2015, 22.4}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2016, 24.1}], 
+           RowBox[{"{", 
+             RowBox[{"2016", ",", "24.1`"}], "}"}]], 
+          Annotation[#, {2016, 24.1}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2017, 27.}], 
+           RowBox[{"{", 
+             RowBox[{"2017", ",", "27.`"}], "}"}]], 
+          Annotation[#, {2017, 27.}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2018, 29.}], 
+           RowBox[{"{", 
+             RowBox[{"2018", ",", "29.`"}], "}"}]], 
+          Annotation[#, {2018, 29.}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2019, 32.}], 
+           RowBox[{"{", 
+             RowBox[{"2019", ",", "32.`"}], "}"}]], 
+          Annotation[#, {2019, 32.}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2020, 34.1}], 
+           RowBox[{"{", 
+             RowBox[{"2020", ",", "34.1`"}], "}"}]], 
+          Annotation[#, {2020, 34.1}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2021, 34.6}], 
+           RowBox[{"{", 
+             RowBox[{"2021", ",", "34.6`"}], "}"}]], 
+          Annotation[#, {2021, 34.6}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2022, 35.2}], 
+           RowBox[{"{", 
+             RowBox[{"2022", ",", "35.2`"}], "}"}]], 
+          Annotation[#, {2022, 35.2}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2023, 34.2}], 
+           RowBox[{"{", 
+             RowBox[{"2023", ",", "34.2`"}], "}"}]], 
+          Annotation[#, {2023, 34.2}, "Tooltip"]& ]}}, {
+        RGBColor[0, 1, 0], 
+        PointSize[Large], {
+         TagBox[
+          TooltipBox[
+           PointBox[{2014, 61.5}], 
+           RowBox[{"{", 
+             RowBox[{"2014", ",", "61.5`"}], "}"}]], 
+          Annotation[#, {2014, 61.5}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2015, 61.2}], 
+           RowBox[{"{", 
+             RowBox[{"2015", ",", "61.2`"}], "}"}]], 
+          Annotation[#, {2015, 61.2}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2016, 60.5}], 
+           RowBox[{"{", 
+             RowBox[{"2016", ",", "60.5`"}], "}"}]], 
+          Annotation[#, {2016, 60.5}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2017, 58.4}], 
+           RowBox[{"{", 
+             RowBox[{"2017", ",", "58.4`"}], "}"}]], 
+          Annotation[#, {2017, 58.4}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2018, 57.1}], 
+           RowBox[{"{", 
+             RowBox[{"2018", ",", "57.1`"}], "}"}]], 
+          Annotation[#, {2018, 57.1}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2019, 57.2}], 
+           RowBox[{"{", 
+             RowBox[{"2019", ",", "57.2`"}], "}"}]], 
+          Annotation[#, {2019, 57.2}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2020, 54.7}], 
+           RowBox[{"{", 
+             RowBox[{"2020", ",", "54.7`"}], "}"}]], 
+          Annotation[#, {2020, 54.7}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2021, 53.8}], 
+           RowBox[{"{", 
+             RowBox[{"2021", ",", "53.8`"}], "}"}]], 
+          Annotation[#, {2021, 53.8}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2022, 52.9}], 
+           RowBox[{"{", 
+             RowBox[{"2022", ",", "52.9`"}], "}"}]], 
+          Annotation[#, {2022, 52.9}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2023, 54.1}], 
+           RowBox[{"{", 
+             RowBox[{"2023", ",", "54.1`"}], "}"}]], 
+          Annotation[#, {2023, 54.1}, "Tooltip"]& ]}}}, 
+     Frame -> {{True, True}, {True, True}}, FrameLabel -> {{
+        FormBox[
+         TagBox["\"\[CapitalSHacek]tevilo poskusov\"", HoldForm], 
+         TraditionalForm], None}, {
+        FormBox[
+         TagBox["\"Leto\"", HoldForm], TraditionalForm], None}}, 
+     FrameTicks -> {{Automatic, Automatic}, {Automatic, Automatic}}, 
+     GridLines -> {None, None}, GridLinesStyle -> Directive[
+       GrayLevel[0.5, 0.4]], ImageSize -> Large, 
+     Method -> {
+      "OptimizePlotMarkers" -> True, "OptimizePlotMarkers" -> True, 
+       "CoordinatesToolOptions" -> {"DisplayFunction" -> ({
+           Identity[
+            Part[#, 1]], 
+           Identity[
+            Part[#, 2]]}& ), "CopiedValueFunction" -> ({
+           Identity[
+            Part[#, 1]], 
+           Identity[
+            Part[#, 2]]}& )}}, PlotLabel -> 
+     FormBox["\"\[CapitalSHacek]tevilo poskusov (FGA, 3PA, 2PA) v vsakem letu\
+\"", TraditionalForm], PlotRange -> {{2013.8125000000048`, 2023.}, {0, 89.2}},
+      PlotRangeClipping -> True, PlotRangePadding -> {{
+        Scaled[0.02], 
+        Scaled[0.02]}, {
+        Scaled[0.02], 
+        Scaled[0.05]}}, Ticks -> {Automatic, Automatic}}], 
+   FormBox[
+    FormBox[
+     TemplateBox[{"\"FGA\"", "\"3PA\"", "\"2PA\""}, "PointLegend", 
+      DisplayFunction -> (FormBox[
+        StyleBox[
+         StyleBox[
+          PaneBox[
+           TagBox[
+            GridBox[{{
+               TagBox[
+                GridBox[{{
+                   GraphicsBox[{{
+                    Directive[
+                    EdgeForm[
+                    Directive[
+                    Opacity[0.3], 
+                    GrayLevel[0]]], 
+                    PointSize[0.5], 
+                    AbsoluteThickness[1.6], 
+                    RGBColor[0, 0, 1], 
+                    Thickness[Large]], {
+                    LineBox[{{0, 10}, {20, 10}}]}}, {
+                    Directive[
+                    EdgeForm[
+                    Directive[
+                    Opacity[0.3], 
+                    GrayLevel[0]]], 
+                    PointSize[0.5], 
+                    AbsoluteThickness[1.6], 
+                    RGBColor[0, 0, 1], 
+                    Thickness[Large]], {}}}, AspectRatio -> Full, 
+                    ImageSize -> {20, 10}, PlotRangePadding -> None, 
+                    ImagePadding -> Automatic, 
+                    BaselinePosition -> (Scaled[0.1] -> Baseline)], #}, {
+                   GraphicsBox[{{
+                    Directive[
+                    EdgeForm[
+                    Directive[
+                    Opacity[0.3], 
+                    GrayLevel[0]]], 
+                    PointSize[0.5], 
+                    AbsoluteThickness[1.6], 
+                    RGBColor[1, 0, 0], 
+                    Thickness[Large]], {
+                    LineBox[{{0, 10}, {20, 10}}]}}, {
+                    Directive[
+                    EdgeForm[
+                    Directive[
+                    Opacity[0.3], 
+                    GrayLevel[0]]], 
+                    PointSize[0.5], 
+                    AbsoluteThickness[1.6], 
+                    RGBColor[1, 0, 0], 
+                    Thickness[Large]], {}}}, AspectRatio -> Full, 
+                    ImageSize -> {20, 10}, PlotRangePadding -> None, 
+                    ImagePadding -> Automatic, 
+                    BaselinePosition -> (Scaled[0.1] -> Baseline)], #2}, {
+                   GraphicsBox[{{
+                    Directive[
+                    EdgeForm[
+                    Directive[
+                    Opacity[0.3], 
+                    GrayLevel[0]]], 
+                    PointSize[0.5], 
+                    AbsoluteThickness[1.6], 
+                    RGBColor[0, 1, 0], 
+                    Thickness[Large]], {
+                    LineBox[{{0, 10}, {20, 10}}]}}, {
+                    Directive[
+                    EdgeForm[
+                    Directive[
+                    Opacity[0.3], 
+                    GrayLevel[0]]], 
+                    PointSize[0.5], 
+                    AbsoluteThickness[1.6], 
+                    RGBColor[0, 1, 0], 
+                    Thickness[Large]], {}}}, AspectRatio -> Full, 
+                    ImageSize -> {20, 10}, PlotRangePadding -> None, 
+                    ImagePadding -> Automatic, 
+                    BaselinePosition -> (Scaled[0.1] -> Baseline)], #3}}, 
+                 GridBoxAlignment -> {
+                  "Columns" -> {Center, Left}, "Rows" -> {{Baseline}}}, 
+                 AutoDelete -> False, 
+                 GridBoxDividers -> {
+                  "Columns" -> {{False}}, "Rows" -> {{False}}}, 
+                 GridBoxItemSize -> {"Columns" -> {{All}}, "Rows" -> {{All}}},
+                  GridBoxSpacings -> {
+                  "Columns" -> {{0.5}}, "Rows" -> {{0.8}}}], "Grid"]}}, 
+             GridBoxAlignment -> {"Columns" -> {{Left}}, "Rows" -> {{Top}}}, 
+             AutoDelete -> False, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+             GridBoxSpacings -> {"Columns" -> {{1}}, "Rows" -> {{0}}}], 
+            "Grid"], Alignment -> Left, AppearanceElements -> None, 
+           ImageMargins -> {{5, 5}, {5, 5}}, ImageSizeAction -> 
+           "ResizeToFit"], LineIndent -> 0, StripOnInput -> False], {
+         FontFamily -> "Arial"}, Background -> Automatic, StripOnInput -> 
+         False], TraditionalForm]& ), 
+      InterpretationFunction :> (RowBox[{"PointLegend", "[", 
+         RowBox[{
+           RowBox[{"{", 
+             RowBox[{
+               RowBox[{"Directive", "[", 
+                 RowBox[{
+                   RowBox[{"PointSize", "[", "0.012833333333333334`", "]"}], 
+                   ",", 
+                   RowBox[{"AbsoluteThickness", "[", "1.6`", "]"}], ",", 
+                   
+                   TemplateBox[<|"color" -> RGBColor[0, 0, 1]|>, 
+                    "RGBColorSwatchTemplate"], ",", 
+                   RowBox[{"Thickness", "[", "Large", "]"}]}], "]"}], ",", 
+               RowBox[{"Directive", "[", 
+                 RowBox[{
+                   RowBox[{"PointSize", "[", "0.012833333333333334`", "]"}], 
+                   ",", 
+                   RowBox[{"AbsoluteThickness", "[", "1.6`", "]"}], ",", 
+                   
+                   TemplateBox[<|"color" -> RGBColor[1, 0, 0]|>, 
+                    "RGBColorSwatchTemplate"], ",", 
+                   RowBox[{"Thickness", "[", "Large", "]"}]}], "]"}], ",", 
+               RowBox[{"Directive", "[", 
+                 RowBox[{
+                   RowBox[{"PointSize", "[", "0.012833333333333334`", "]"}], 
+                   ",", 
+                   RowBox[{"AbsoluteThickness", "[", "1.6`", "]"}], ",", 
+                   
+                   TemplateBox[<|"color" -> RGBColor[0, 1, 0]|>, 
+                    "RGBColorSwatchTemplate"], ",", 
+                   RowBox[{"Thickness", "[", "Large", "]"}]}], "]"}]}], "}"}],
+            ",", 
+           RowBox[{"{", 
+             RowBox[{#, ",", #2, ",", #3}], "}"}], ",", 
+           RowBox[{"LegendMarkers", "\[Rule]", 
+             RowBox[{"{", 
+               RowBox[{
+                 RowBox[{"{", 
+                   RowBox[{"False", ",", "Automatic"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{"False", ",", "Automatic"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{"False", ",", "Automatic"}], "}"}]}], "}"}]}], ",", 
+           RowBox[{"Joined", "\[Rule]", 
+             RowBox[{"{", 
+               RowBox[{"True", ",", "True", ",", "True"}], "}"}]}], ",", 
+           RowBox[{"LabelStyle", "\[Rule]", 
+             RowBox[{"{", "}"}]}], ",", 
+           RowBox[{"LegendLayout", "\[Rule]", "\"Column\""}]}], "]"}]& ), 
+      Editable -> True], TraditionalForm], TraditionalForm]},
+  "Legended",
+  DisplayFunction->(GridBox[{{
+      TagBox[
+       ItemBox[
+        PaneBox[
+         TagBox[#, "SkipImageSizeLevel"], Alignment -> {Center, Baseline}, 
+         BaselinePosition -> Baseline], DefaultBaseStyle -> "Labeled"], 
+       "SkipImageSizeLevel"], 
+      ItemBox[#2, DefaultBaseStyle -> "LabeledLabel"]}}, 
+    GridBoxAlignment -> {"Columns" -> {{Center}}, "Rows" -> {{Center}}}, 
+    AutoDelete -> False, GridBoxItemSize -> Automatic, 
+    BaselinePosition -> {1, 1}]& ),
+  Editable->True,
+  InterpretationFunction->(RowBox[{"Legended", "[", 
+     RowBox[{#, ",", 
+       RowBox[{"Placed", "[", 
+         RowBox[{#2, ",", "After"}], "]"}]}], "]"}]& )]], "Output",
+ CellChangeTimes->{{3.897489109313712*^9, 3.8974891094497595`*^9}, 
+   3.8974910634215593`*^9, 3.8975619585258417`*^9, {3.8975640668951445`*^9, 
+   3.8975640710667343`*^9}, 3.8975648602948008`*^9},
+ CellLabel->"Out[7]=",ExpressionUUID->"85522a9d-d2f4-4ee7-8eb9-f38702f70f85"]
+}, Open  ]],
+
+Cell["\<\
+S tega grafa lahko sklepamo, da so meti za tri to\[CHacek]ke postali bolj \
+popularni, saj rastejo in meti za dve to\[CHacek]ki padajo.
+
+Spodaj imamo graf, ki nam prikazuje popre\[CHacek]je to\[CHacek]ki, ki so jih \
+dosegale ekipe na tekmo.
+\
+\>", "Text",
+ CellChangeTimes->{{3.897489137773506*^9, 3.897489183812108*^9}, {
+  3.8974892879167128`*^9, 
+  3.8974893287278767`*^9}},ExpressionUUID->"77afcd68-5e9a-4ed7-bc9c-\
+cb047880ab80"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"totalPoints", " ", "=", " ", 
+   RowBox[{"{", "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Do", "[", "\n", "  ", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"filePath", " ", "=", " ", 
+       RowBox[{"FileNameJoin", "[", 
+        RowBox[{"{", 
+         RowBox[{"dataDirectory", ",", " ", 
+          RowBox[{"\"\<NBA_\>\"", " ", "<>", " ", 
+           RowBox[{"ToString", "[", "year", "]"}], " ", "<>", " ", 
+           "\"\<ekipe.csv\>\""}]}], "}"}], "]"}]}], ";", "\n", "  ", 
+      RowBox[{"data", " ", "=", " ", 
+       RowBox[{"Import", "[", 
+        RowBox[{"filePath", ",", " ", "\"\<Data\>\""}], "]"}]}], ";", "\n", 
+      "  ", 
+      RowBox[{"lastRow", " ", "=", " ", 
+       RowBox[{"Last", "[", "data", "]"}]}], ";", "\n", "  ", 
+      RowBox[{"pts", " ", "=", " ", 
+       RowBox[{"lastRow", "[", 
+        RowBox[{"[", "25", "]"}], "]"}]}], ";", "\n", "  ", 
+      RowBox[{"AppendTo", "[", 
+       RowBox[{"totalPoints", ",", " ", 
+        RowBox[{"{", 
+         RowBox[{"year", ",", " ", "pts"}], "}"}]}], "]"}]}], ",", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{"year", ",", " ", "years"}], "}"}]}], "\n", "]"}], ";"}], 
+  "\n"}], "\n", 
+ RowBox[{"ListPlot", "[", "\n", "  ", 
+  RowBox[{
+   RowBox[{"{", "totalPoints", "}"}], ",", "\n", "  ", 
+   RowBox[{"Joined", " ", "->", " ", "True"}], ",", "\n", "  ", 
+   RowBox[{"PlotStyle", " ", "->", " ", 
+    RowBox[{"{", 
+     RowBox[{"Directive", "[", 
+      RowBox[{"Blue", ",", " ", "Thick"}], "]"}], "}"}]}], ",", "\n", "  ", 
+   RowBox[{"Frame", " ", "->", " ", "True"}], ",", "\n", "  ", 
+   RowBox[{"FrameLabel", " ", "->", " ", 
+    RowBox[{"{", 
+     RowBox[{
+     "\"\<Leto\>\"", ",", " ", 
+      "\"\<\[CapitalSHacek]tevilo to\[CHacek]k\>\""}], "}"}]}], ",", "\n", 
+   "  ", 
+   RowBox[{
+   "PlotLabel", " ", "->", " ", 
+    "\"\<\[CapitalSHacek]tevilo to\[CHacek]k v vsakem letu\>\""}], ",", "\n", 
+   "  ", 
+   RowBox[{"ImageSize", " ", "->", " ", "Large"}], ",", "\n", "  ", 
+   RowBox[{"Epilog", " ", "->", " ", 
+    RowBox[{"{", "\n", "    ", 
+     RowBox[{"{", 
+      RowBox[{"Blue", ",", " ", 
+       RowBox[{"PointSize", "[", "Large", "]"}], ",", " ", 
+       RowBox[{"Table", "[", 
+        RowBox[{
+         RowBox[{"Tooltip", "[", 
+          RowBox[{
+           RowBox[{"Point", "[", 
+            RowBox[{"totalPoints", "[", 
+             RowBox[{"[", "i", "]"}], "]"}], "]"}], ",", " ", 
+           RowBox[{"totalPoints", "[", 
+            RowBox[{"[", "i", "]"}], "]"}]}], "]"}], ",", " ", 
+         RowBox[{"{", 
+          RowBox[{"i", ",", " ", 
+           RowBox[{"Length", "[", "totalPoints", "]"}]}], "}"}]}], "]"}]}], 
+      "}"}], "}"}]}], ",", "\n", "  ", 
+   RowBox[{"PlotLegends", " ", "->", " ", 
+    RowBox[{"{", "\"\<PTS\>\"", "}"}]}]}], "\n", "]"}]}], "Code",
+ CellChangeTimes->{3.8974896015447483`*^9},
+ CellLabel->"In[8]:=",ExpressionUUID->"0c11aef9-e86a-46a1-bce1-0ac58a67003e"],
+
+Cell[BoxData[
+ TemplateBox[{
+   GraphicsBox[{{}, {{{}, {}, {
+        Hue[0.67, 0.6, 0.6], 
+        Directive[
+         PointSize[0.012833333333333334`], 
+         AbsoluteThickness[1.6], 
+         RGBColor[0, 0, 1], 
+         Thickness[Large]], 
+        LineBox[{{2014., 101.}, {2015., 100.}, {2016., 102.7}, {2017., 
+         105.6}, {2018., 106.3}, {2019., 111.2}, {2020., 111.8}, {2021., 
+         112.1}, {2022., 110.6}, {2023., 114.7}}]}}}, {{}, {}}}, {
+    DisplayFunction -> Identity, DisplayFunction -> Identity, AspectRatio -> 
+     NCache[GoldenRatio^(-1), 0.6180339887498948], Axes -> {True, True}, 
+     AxesLabel -> {None, None}, 
+     AxesOrigin -> {2013.8125000000048`, 99.18333333333355}, DisplayFunction :> 
+     Identity, Epilog -> {{
+        RGBColor[0, 0, 1], 
+        PointSize[Large], {
+         TagBox[
+          TooltipBox[
+           PointBox[{2014, 101.}], 
+           RowBox[{"{", 
+             RowBox[{"2014", ",", "101.`"}], "}"}]], 
+          Annotation[#, {2014, 101.}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2015, 100.}], 
+           RowBox[{"{", 
+             RowBox[{"2015", ",", "100.`"}], "}"}]], 
+          Annotation[#, {2015, 100.}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2016, 102.7}], 
+           RowBox[{"{", 
+             RowBox[{"2016", ",", "102.7`"}], "}"}]], 
+          Annotation[#, {2016, 102.7}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2017, 105.6}], 
+           RowBox[{"{", 
+             RowBox[{"2017", ",", "105.6`"}], "}"}]], 
+          Annotation[#, {2017, 105.6}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2018, 106.3}], 
+           RowBox[{"{", 
+             RowBox[{"2018", ",", "106.3`"}], "}"}]], 
+          Annotation[#, {2018, 106.3}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2019, 111.2}], 
+           RowBox[{"{", 
+             RowBox[{"2019", ",", "111.2`"}], "}"}]], 
+          Annotation[#, {2019, 111.2}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2020, 111.8}], 
+           RowBox[{"{", 
+             RowBox[{"2020", ",", "111.8`"}], "}"}]], 
+          Annotation[#, {2020, 111.8}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2021, 112.1}], 
+           RowBox[{"{", 
+             RowBox[{"2021", ",", "112.1`"}], "}"}]], 
+          Annotation[#, {2021, 112.1}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2022, 110.6}], 
+           RowBox[{"{", 
+             RowBox[{"2022", ",", "110.6`"}], "}"}]], 
+          Annotation[#, {2022, 110.6}, "Tooltip"]& ], 
+         TagBox[
+          TooltipBox[
+           PointBox[{2023, 114.7}], 
+           RowBox[{"{", 
+             RowBox[{"2023", ",", "114.7`"}], "}"}]], 
+          Annotation[#, {2023, 114.7}, "Tooltip"]& ]}}}, 
+     Frame -> {{True, True}, {True, True}}, FrameLabel -> {{
+        FormBox[
+         TagBox["\"\[CapitalSHacek]tevilo to\[CHacek]k\"", HoldForm], 
+         TraditionalForm], None}, {
+        FormBox[
+         TagBox["\"Leto\"", HoldForm], TraditionalForm], None}}, 
+     FrameTicks -> {{Automatic, Automatic}, {Automatic, Automatic}}, 
+     GridLines -> {None, None}, GridLinesStyle -> Directive[
+       GrayLevel[0.5, 0.4]], ImageSize -> Large, 
+     Method -> {
+      "OptimizePlotMarkers" -> True, "OptimizePlotMarkers" -> True, 
+       "CoordinatesToolOptions" -> {"DisplayFunction" -> ({
+           Identity[
+            Part[#, 1]], 
+           Identity[
+            Part[#, 2]]}& ), "CopiedValueFunction" -> ({
+           Identity[
+            Part[#, 1]], 
+           Identity[
+            Part[#, 2]]}& )}}, PlotLabel -> 
+     FormBox["\"\[CapitalSHacek]tevilo to\[CHacek]k v vsakem letu\"", 
+       TraditionalForm], 
+     PlotRange -> {{2013.8125000000048`, 2023.}, {99.18333333333355, 114.7}}, 
+     PlotRangeClipping -> True, PlotRangePadding -> {{
+        Scaled[0.02], 
+        Scaled[0.02]}, {
+        Scaled[0.05], 
+        Scaled[0.05]}}, Ticks -> {Automatic, Automatic}}], 
+   FormBox[
+    FormBox[
+     TemplateBox[{"\"PTS\""}, "PointLegend", DisplayFunction -> (FormBox[
+        StyleBox[
+         StyleBox[
+          PaneBox[
+           TagBox[
+            GridBox[{{
+               TagBox[
+                GridBox[{{
+                   GraphicsBox[{{
+                    Directive[
+                    EdgeForm[
+                    Directive[
+                    Opacity[0.3], 
+                    GrayLevel[0]]], 
+                    PointSize[0.5], 
+                    AbsoluteThickness[1.6], 
+                    RGBColor[0, 0, 1], 
+                    Thickness[Large]], {
+                    LineBox[{{0, 10}, {20, 10}}]}}, {
+                    Directive[
+                    EdgeForm[
+                    Directive[
+                    Opacity[0.3], 
+                    GrayLevel[0]]], 
+                    PointSize[0.5], 
+                    AbsoluteThickness[1.6], 
+                    RGBColor[0, 0, 1], 
+                    Thickness[Large]], {}}}, AspectRatio -> Full, 
+                    ImageSize -> {20, 10}, PlotRangePadding -> None, 
+                    ImagePadding -> Automatic, 
+                    BaselinePosition -> (Scaled[0.1] -> Baseline)], #}}, 
+                 GridBoxAlignment -> {
+                  "Columns" -> {Center, Left}, "Rows" -> {{Baseline}}}, 
+                 AutoDelete -> False, 
+                 GridBoxDividers -> {
+                  "Columns" -> {{False}}, "Rows" -> {{False}}}, 
+                 GridBoxItemSize -> {"Columns" -> {{All}}, "Rows" -> {{All}}},
+                  GridBoxSpacings -> {
+                  "Columns" -> {{0.5}}, "Rows" -> {{0.8}}}], "Grid"]}}, 
+             GridBoxAlignment -> {"Columns" -> {{Left}}, "Rows" -> {{Top}}}, 
+             AutoDelete -> False, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+             GridBoxSpacings -> {"Columns" -> {{1}}, "Rows" -> {{0}}}], 
+            "Grid"], Alignment -> Left, AppearanceElements -> None, 
+           ImageMargins -> {{5, 5}, {5, 5}}, ImageSizeAction -> 
+           "ResizeToFit"], LineIndent -> 0, StripOnInput -> False], {
+         FontFamily -> "Arial"}, Background -> Automatic, StripOnInput -> 
+         False], TraditionalForm]& ), 
+      InterpretationFunction :> (RowBox[{"PointLegend", "[", 
+         RowBox[{
+           RowBox[{"{", 
+             RowBox[{"Directive", "[", 
+               RowBox[{
+                 RowBox[{"PointSize", "[", "0.012833333333333334`", "]"}], 
+                 ",", 
+                 RowBox[{"AbsoluteThickness", "[", "1.6`", "]"}], ",", 
+                 
+                 TemplateBox[<|"color" -> RGBColor[0, 0, 1]|>, 
+                  "RGBColorSwatchTemplate"], ",", 
+                 RowBox[{"Thickness", "[", "Large", "]"}]}], "]"}], "}"}], 
+           ",", 
+           RowBox[{"{", #, "}"}], ",", 
+           RowBox[{"LegendMarkers", "\[Rule]", 
+             RowBox[{"{", 
+               RowBox[{"{", 
+                 RowBox[{"False", ",", "Automatic"}], "}"}], "}"}]}], ",", 
+           RowBox[{"Joined", "\[Rule]", 
+             RowBox[{"{", "True", "}"}]}], ",", 
+           RowBox[{"LabelStyle", "\[Rule]", 
+             RowBox[{"{", "}"}]}], ",", 
+           RowBox[{"LegendLayout", "\[Rule]", "\"Column\""}]}], "]"}]& ), 
+      Editable -> True], TraditionalForm], TraditionalForm]},
+  "Legended",
+  DisplayFunction->(GridBox[{{
+      TagBox[
+       ItemBox[
+        PaneBox[
+         TagBox[#, "SkipImageSizeLevel"], Alignment -> {Center, Baseline}, 
+         BaselinePosition -> Baseline], DefaultBaseStyle -> "Labeled"], 
+       "SkipImageSizeLevel"], 
+      ItemBox[#2, DefaultBaseStyle -> "LabeledLabel"]}}, 
+    GridBoxAlignment -> {"Columns" -> {{Center}}, "Rows" -> {{Center}}}, 
+    AutoDelete -> False, GridBoxItemSize -> Automatic, 
+    BaselinePosition -> {1, 1}]& ),
+  Editable->True,
+  InterpretationFunction->(RowBox[{"Legended", "[", 
+     RowBox[{#, ",", 
+       RowBox[{"Placed", "[", 
+         RowBox[{#2, ",", "After"}], "]"}]}], "]"}]& )]], "Output",
+ CellChangeTimes->{3.8974896025255966`*^9, 3.8974910611212053`*^9, 
+  3.8975619588845634`*^9, 3.8975640739252033`*^9, 3.8975648606787586`*^9},
+ CellLabel->"Out[10]=",ExpressionUUID->"3130f7d1-8095-47eb-b56d-240066cae817"]
+}, Open  ]],
+
+Cell["\<\
+To samo prikazuje, da sedaj ko imamo ve\[CHacek] poskusov za tri \
+to\[CHacek]ke imamo tudi ve\[CHacek] to\[CHacek]k na tekmo za vsako ekipo.\
+\>", "Text",
+ CellChangeTimes->{{3.897489611691799*^9, 3.897489617614558*^9}, {
+  3.8974896866806474`*^9, 
+  3.897489763313159*^9}},ExpressionUUID->"cb6a14e6-ae0d-4e86-a6b0-\
+b25cfe69649c"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Primerjava ekip", "Section",
+ CellChangeTimes->{{3.8974898680826883`*^9, 
+  3.8974898709296885`*^9}},ExpressionUUID->"a1565bcd-dd5c-43bd-9d46-\
+05eacde6a584"],
+
+Cell["\<\
+Tabela prikazuje katera ekipa imela najve\[CHacek]je povpre\[CHacek]je to\
+\[CHacek]k na tekmo za vsako leto posebaj:
+\
+\>", "Text",
+ CellChangeTimes->{{3.89748989302096*^9, 3.8974899307173247`*^9}, {
+  3.897490205477383*^9, 
+  3.8974902078303137`*^9}},ExpressionUUID->"06abce79-fef6-4aad-bfdc-\
+260e431a9c8b"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"bestTeams", " ", "=", " ", 
+    RowBox[{"{", "}"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Do", "[", "\n", "  ", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"filePath", " ", "=", " ", 
+       RowBox[{"FileNameJoin", "[", 
+        RowBox[{"{", 
+         RowBox[{"dataDirectory", ",", " ", 
+          RowBox[{"\"\<NBA_\>\"", " ", "<>", " ", 
+           RowBox[{"ToString", "[", "year", "]"}], " ", "<>", " ", 
+           "\"\<ekipe.csv\>\""}]}], "}"}], "]"}]}], ";", "\n", "  ", 
+      RowBox[{"data", " ", "=", " ", 
+       RowBox[{"Import", "[", 
+        RowBox[{"filePath", ",", " ", "\"\<Data\>\""}], "]"}]}], ";", "\n", 
+      "  ", 
+      RowBox[{"maxPointsIndex", " ", "=", " ", 
+       RowBox[{
+        RowBox[{"Position", "[", 
+         RowBox[{
+          RowBox[{"data", "[", 
+           RowBox[{"[", 
+            RowBox[{
+             RowBox[{"2", " ", ";;", " ", 
+              RowBox[{"-", "2"}]}], ",", " ", 
+             RowBox[{"-", "1"}]}], "]"}], "]"}], ",", " ", 
+          RowBox[{"Max", "[", 
+           RowBox[{"data", "[", 
+            RowBox[{"[", 
+             RowBox[{
+              RowBox[{"2", " ", ";;", " ", 
+               RowBox[{"-", "2"}]}], ",", " ", 
+              RowBox[{"-", "1"}]}], "]"}], "]"}], "]"}]}], "]"}], "[", 
+        RowBox[{"[", 
+         RowBox[{"1", ",", " ", "1"}], "]"}], "]"}]}], ";", "\n", "  ", 
+      RowBox[{"maxPoints", " ", "=", " ", 
+       RowBox[{"data", "[", 
+        RowBox[{"[", 
+         RowBox[{
+          RowBox[{"maxPointsIndex", " ", "+", " ", "1"}], ",", " ", 
+          RowBox[{"-", "1"}]}], "]"}], "]"}]}], ";", "\n", "  ", 
+      RowBox[{"maxPointsTeam", " ", "=", " ", 
+       RowBox[{"data", "[", 
+        RowBox[{"[", 
+         RowBox[{
+          RowBox[{"maxPointsIndex", " ", "+", " ", "1"}], ",", " ", "2"}], 
+         "]"}], "]"}]}], ";", "\n", "  ", 
+      RowBox[{"AppendTo", "[", 
+       RowBox[{"bestTeams", ",", " ", 
+        RowBox[{"{", 
+         RowBox[{"year", ",", " ", "maxPointsTeam", ",", " ", "maxPoints"}], 
+         "}"}]}], "]"}]}], ",", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{"year", ",", " ", "years"}], "}"}]}], "\n", "]"}], ";"}], 
+  "\n"}], "\n", 
+ RowBox[{"TableForm", "[", 
+  RowBox[{"bestTeams", ",", " ", 
+   RowBox[{"TableHeadings", " ", "->", " ", 
+    RowBox[{"{", 
+     RowBox[{"None", ",", " ", 
+      RowBox[{"{", 
+       RowBox[{
+       "\"\<Leto\>\"", ",", " ", "\"\<Ekipa\>\"", ",", " ", 
+        "\"\<\[CapitalSHacek]tevilo to\[CHacek]k\>\""}], "}"}]}], "}"}]}]}], 
+  "]"}], "\n"}], "Code",
+ CellChangeTimes->{{3.897490214948621*^9, 3.8974902348308773`*^9}},
+ CellLabel->"In[11]:=",ExpressionUUID->"002e38f4-2f07-415e-a2dc-82370c1fd8d5"],
+
+Cell[BoxData[
+ TagBox[
+  TagBox[GridBox[{
+     {
+      TagBox["\<\"Leto\"\>",
+       HoldForm], 
+      TagBox["\<\"Ekipa\"\>",
+       HoldForm], 
+      TagBox["\<\"\[CapitalSHacek]tevilo to\[CHacek]k\"\>",
+       HoldForm]},
+     {"2014", "\<\"Los Angeles Clippers\"\>", "107.9`"},
+     {"2015", "\<\"Golden State Warriors\"\>", "110.`"},
+     {"2016", "\<\"Golden State Warriors\"\>", "114.9`"},
+     {"2017", "\<\"Golden State Warriors\"\>", "115.9`"},
+     {"2018", "\<\"Golden State Warriors\"\>", "113.5`"},
+     {"2019", "\<\"Milwaukee Bucks\"\>", "118.1`"},
+     {"2020", "\<\"Milwaukee Bucks\"\>", "118.7`"},
+     {"2021", "\<\"Milwaukee Bucks\"\>", "120.1`"},
+     {"2022", "\<\"Minnesota Timberwolves\"\>", "115.9`"},
+     {"2023", "\<\"Sacramento Kings\"\>", "120.7`"}
+    },
+    GridBoxAlignment->{"Columns" -> {{Left}}, "Rows" -> {{Baseline}}},
+    GridBoxDividers->{
+     "Columns" -> {{False}}, "Rows" -> {False, True, {False}, False}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[2.0999999999999996`]}, 
+        Offset[0.27999999999999997`]}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}}],
+   {None, OutputFormsDump`HeadedColumns}],
+  Function[BoxForm`e$, 
+   TableForm[
+   BoxForm`e$, 
+    TableHeadings -> {
+     None, {"Leto", "Ekipa", 
+       "\[CapitalSHacek]tevilo to\[CHacek]k"}}]]]], "Output",
+ CellChangeTimes->{{3.8974902229842653`*^9, 3.897490236684496*^9}, 
+   3.89749101706383*^9, 3.8975619590477905`*^9, 3.897564860777832*^9},
+ CellLabel->
+  "Out[13]//TableForm=",ExpressionUUID->"c691893c-e82f-4e0f-affb-\
+34a257f3aadb"]
+}, Open  ]],
+
+Cell["\<\
+Tabela prikazuje katera ekipa imela najbolj\[SHacek]i procent meta za tri to\
+\[CHacek]ke na tekmo za vsako leto posebaj:\
+\>", "Text",
+ CellChangeTimes->{{3.8974902593902054`*^9, 
+  3.897490281422974*^9}},ExpressionUUID->"d64b532f-eb15-43bf-b148-\
+614a3e7d7123"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"bestTeams", " ", "=", " ", 
+    RowBox[{"{", "}"}]}], ";"}], "\n", "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Do", "[", "\n", "  ", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"filePath", " ", "=", " ", 
+       RowBox[{"FileNameJoin", "[", 
+        RowBox[{"{", 
+         RowBox[{"dataDirectory", ",", " ", 
+          RowBox[{"\"\<NBA_\>\"", " ", "<>", " ", 
+           RowBox[{"ToString", "[", "year", "]"}], " ", "<>", " ", 
+           "\"\<ekipe.csv\>\""}]}], "}"}], "]"}]}], ";", "\n", "  ", 
+      RowBox[{"data", " ", "=", " ", 
+       RowBox[{"Import", "[", 
+        RowBox[{"filePath", ",", " ", "\"\<Data\>\""}], "]"}]}], ";", "\n", 
+      "  ", 
+      RowBox[{"maxThreePointPercentageIndex", " ", "=", " ", 
+       RowBox[{
+        RowBox[{"Position", "[", 
+         RowBox[{
+          RowBox[{"data", "[", 
+           RowBox[{"[", 
+            RowBox[{
+             RowBox[{"2", " ", ";;", " ", 
+              RowBox[{"-", "2"}]}], ",", " ", "10"}], "]"}], "]"}], ",", " ", 
+          RowBox[{"Max", "[", 
+           RowBox[{"data", "[", 
+            RowBox[{"[", 
+             RowBox[{
+              RowBox[{"2", " ", ";;", " ", 
+               RowBox[{"-", "2"}]}], ",", " ", "10"}], "]"}], "]"}], "]"}]}], 
+         "]"}], "[", 
+        RowBox[{"[", 
+         RowBox[{"1", ",", " ", "1"}], "]"}], "]"}]}], ";", "\n", "  ", 
+      RowBox[{"maxThreePointPercentage", " ", "=", " ", 
+       RowBox[{"data", "[", 
+        RowBox[{"[", 
+         RowBox[{
+          RowBox[{"maxThreePointPercentageIndex", " ", "+", " ", "1"}], ",", 
+          " ", "10"}], "]"}], "]"}]}], ";", "\n", "  ", 
+      RowBox[{"maxThreePointTeam", " ", "=", " ", 
+       RowBox[{"data", "[", 
+        RowBox[{"[", 
+         RowBox[{
+          RowBox[{"maxThreePointPercentageIndex", " ", "+", " ", "1"}], ",", 
+          " ", "2"}], "]"}], "]"}]}], ";", "\n", "  ", 
+      RowBox[{"maxThreePointMade", " ", "=", " ", 
+       RowBox[{"data", "[", 
+        RowBox[{"[", 
+         RowBox[{
+          RowBox[{"maxThreePointPercentageIndex", " ", "+", " ", "1"}], ",", 
+          " ", "8"}], "]"}], "]"}]}], ";", "\n", "  ", 
+      RowBox[{"maxThreePointAttempts", " ", "=", " ", 
+       RowBox[{"data", "[", 
+        RowBox[{"[", 
+         RowBox[{
+          RowBox[{"maxThreePointPercentageIndex", " ", "+", " ", "1"}], ",", 
+          " ", "9"}], "]"}], "]"}]}], ";", "\n", "  ", 
+      RowBox[{"AppendTo", "[", 
+       RowBox[{"bestTeams", ",", " ", 
+        RowBox[{"{", 
+         RowBox[{
+         "year", ",", " ", "maxThreePointTeam", ",", " ", "maxThreePointMade",
+           ",", " ", "maxThreePointAttempts", ",", " ", 
+          "maxThreePointPercentage"}], "}"}]}], "]"}]}], ",", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{"year", ",", " ", "years"}], "}"}]}], "\n", "]"}], ";"}], 
+  "\n"}], "\n", 
+ RowBox[{"TableForm", "[", 
+  RowBox[{"bestTeams", ",", " ", 
+   RowBox[{"TableHeadings", " ", "->", " ", 
+    RowBox[{"{", 
+     RowBox[{"None", ",", " ", 
+      RowBox[{"{", 
+       RowBox[{
+       "\"\<Leto\>\"", ",", " ", "\"\<Najbolj\[SHacek]a ekipa\>\"", ",", " ", 
+        "\"\<3P\>\"", ",", " ", "\"\<3PA\>\"", ",", " ", "\"\<3P%\>\""}], 
+       "}"}]}], "}"}]}]}], "]"}], "\n"}], "Code",
+ CellChangeTimes->{{3.897491083103585*^9, 3.8974910852837553`*^9}},
+ CellLabel->"In[14]:=",ExpressionUUID->"43780652-e2c7-42d9-a53d-a99df48c7379"],
+
+Cell[BoxData[
+ TagBox[
+  TagBox[GridBox[{
+     {
+      TagBox["\<\"Leto\"\>",
+       HoldForm], 
+      TagBox["\<\"Najbolj\[SHacek]a ekipa\"\>",
+       HoldForm], 
+      TagBox["\<\"3P\"\>",
+       HoldForm], 
+      TagBox["\<\"3PA\"\>",
+       HoldForm], 
+      TagBox["\<\"3P%\"\>",
+       HoldForm]},
+     {"2014", "\<\"San Antonio Spurs\"\>", "8.5`", "21.4`", "0.397`"},
+     {"2015", "\<\"Golden State Warriors\"\>", "10.8`", "27.`", "0.398`"},
+     {"2016", "\<\"Golden State Warriors\"\>", "13.1`", "31.6`", "0.416`"},
+     {"2017", "\<\"San Antonio Spurs\"\>", "9.2`", "23.5`", "0.391`"},
+     {"2018", "\<\"Golden State Warriors\"\>", "11.3`", "28.9`", "0.391`"},
+     {"2019", "\<\"San Antonio Spurs\"\>", "9.9`", "25.3`", "0.392`"},
+     {"2020", "\<\"Utah Jazz\"\>", "13.4`", "35.2`", "0.38`"},
+     {"2021", "\<\"Los Angeles Clippers\"\>", "14.3`", "34.7`", "0.411`"},
+     {"2022", "\<\"Miami Heat\"\>", "13.6`", "35.8`", "0.379`"},
+     {"2023", "\<\"Philadelphia 76ers\"\>", "12.6`", "32.6`", "0.387`"}
+    },
+    GridBoxAlignment->{"Columns" -> {{Left}}, "Rows" -> {{Baseline}}},
+    GridBoxDividers->{
+     "Columns" -> {{False}}, "Rows" -> {False, True, {False}, False}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[2.0999999999999996`]}, 
+        Offset[0.27999999999999997`]}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}}],
+   {None, OutputFormsDump`HeadedColumns}],
+  Function[BoxForm`e$, 
+   TableForm[
+   BoxForm`e$, 
+    TableHeadings -> {
+     None, {"Leto", "Najbolj\[SHacek]a ekipa", "3P", "3PA", 
+       "3P%"}}]]]], "Output",
+ CellChangeTimes->{3.8974910869943027`*^9, 3.89756195912952*^9, 
+  3.897564860859234*^9},
+ CellLabel->
+  "Out[16]//TableForm=",ExpressionUUID->"0de5a9c9-db89-4c36-ad4c-\
+009f5db8bc63"]
+}, Open  ]],
+
+Cell["\<\
+Tabela prikazuje katera ekipa imela najbolj\[SHacek]i procent meta za dve to\
+\[CHacek]ki na tekmo za vsako leto posebaj:
+\
+\>", "Text",
+ CellChangeTimes->{{3.897491148728367*^9, 
+  3.897491156587227*^9}},ExpressionUUID->"5c697d92-4895-4e57-8564-\
+52310d79ec55"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"bestTeams", " ", "=", " ", 
+    RowBox[{"{", "}"}]}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Do", "[", "\n", "  ", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"filePath", " ", "=", " ", 
+       RowBox[{"FileNameJoin", "[", 
+        RowBox[{"{", 
+         RowBox[{"dataDirectory", ",", " ", 
+          RowBox[{"\"\<NBA_\>\"", " ", "<>", " ", 
+           RowBox[{"ToString", "[", "year", "]"}], " ", "<>", " ", 
+           "\"\<ekipe.csv\>\""}]}], "}"}], "]"}]}], ";", "\n", "  ", 
+      RowBox[{"data", " ", "=", " ", 
+       RowBox[{"Import", "[", 
+        RowBox[{"filePath", ",", " ", "\"\<Data\>\""}], "]"}]}], ";", "\n", 
+      "  ", 
+      RowBox[{"maxTwoPointPercentageIndex", " ", "=", " ", 
+       RowBox[{
+        RowBox[{"Position", "[", 
+         RowBox[{
+          RowBox[{"data", "[", 
+           RowBox[{"[", 
+            RowBox[{
+             RowBox[{"2", " ", ";;", " ", 
+              RowBox[{"-", "2"}]}], ",", " ", "13"}], "]"}], "]"}], ",", " ", 
+          RowBox[{"Max", "[", 
+           RowBox[{"data", "[", 
+            RowBox[{"[", 
+             RowBox[{
+              RowBox[{"2", " ", ";;", " ", 
+               RowBox[{"-", "2"}]}], ",", " ", "13"}], "]"}], "]"}], "]"}]}], 
+         "]"}], "[", 
+        RowBox[{"[", 
+         RowBox[{"1", ",", " ", "1"}], "]"}], "]"}]}], ";", "\n", "  ", 
+      RowBox[{"maxTwoPointPercentage", " ", "=", " ", 
+       RowBox[{"data", "[", 
+        RowBox[{"[", 
+         RowBox[{
+          RowBox[{"maxTwoPointPercentageIndex", " ", "+", " ", "1"}], ",", 
+          " ", "13"}], "]"}], "]"}]}], ";", "\n", "  ", 
+      RowBox[{"maxTwoPointTeam", " ", "=", " ", 
+       RowBox[{"data", "[", 
+        RowBox[{"[", 
+         RowBox[{
+          RowBox[{"maxTwoPointPercentageIndex", " ", "+", " ", "1"}], ",", 
+          " ", "2"}], "]"}], "]"}]}], ";", "\n", "  ", 
+      RowBox[{"maxTwoPointMade", " ", "=", " ", 
+       RowBox[{"data", "[", 
+        RowBox[{"[", 
+         RowBox[{
+          RowBox[{"maxTwoPointPercentageIndex", " ", "+", " ", "1"}], ",", 
+          " ", "11"}], "]"}], "]"}]}], ";", "\n", "  ", 
+      RowBox[{"maxTwoPointAttempts", " ", "=", " ", 
+       RowBox[{"data", "[", 
+        RowBox[{"[", 
+         RowBox[{
+          RowBox[{"maxTwoPointPercentageIndex", " ", "+", " ", "1"}], ",", 
+          " ", "12"}], "]"}], "]"}]}], ";", "\n", "  ", 
+      RowBox[{"AppendTo", "[", 
+       RowBox[{"bestTeams", ",", " ", 
+        RowBox[{"{", 
+         RowBox[{
+         "year", ",", " ", "maxTwoPointTeam", ",", " ", "maxTwoPointMade", 
+          ",", " ", "maxTwoPointAttempts", ",", " ", 
+          "maxTwoPointPercentage"}], "}"}]}], "]"}]}], ",", "\n", "  ", 
+     RowBox[{"{", 
+      RowBox[{"year", ",", " ", "years"}], "}"}]}], "\n", "]"}], ";"}], 
+  "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"TableForm", "[", 
+   RowBox[{"bestTeams", ",", " ", 
+    RowBox[{"TableHeadings", " ", "->", " ", 
+     RowBox[{"{", 
+      RowBox[{"None", ",", " ", 
+       RowBox[{"{", 
+        RowBox[{
+        "\"\<Leto\>\"", ",", " ", "\"\<Najbolj\[SHacek]a ekipa\>\"", ",", 
+         " ", "\"\<2P\>\"", ",", " ", "\"\<2PA\>\"", ",", " ", 
+         "\"\<2P%\>\""}], "}"}]}], "}"}]}]}], "]"}], "\n"}], "\n"}], "Code",
+ CellChangeTimes->{{3.8974912065532684`*^9, 3.8974912103069105`*^9}, {
+  3.897491305133896*^9, 3.8974913083084955`*^9}, {3.8974913562783923`*^9, 
+  3.897491360123803*^9}, {3.8974914342504363`*^9, 3.897491437367057*^9}, {
+  3.8974915620603495`*^9, 3.8974915638795056`*^9}, {3.8974916517962446`*^9, 
+  3.8974916566203136`*^9}},
+ CellLabel->"In[17]:=",ExpressionUUID->"ec1cc0fc-464d-4aae-9a31-e8df089bf86c"],
+
+Cell[BoxData[
+ TagBox[
+  TagBox[GridBox[{
+     {
+      TagBox["\<\"Leto\"\>",
+       HoldForm], 
+      TagBox["\<\"Najbolj\[SHacek]a ekipa\"\>",
+       HoldForm], 
+      TagBox["\<\"2P\"\>",
+       HoldForm], 
+      TagBox["\<\"2PA\"\>",
+       HoldForm], 
+      TagBox["\<\"2P%\"\>",
+       HoldForm]},
+     {"2014", "\<\"Miami Heat\"\>", "30.2`", "54.2`", "0.558`"},
+     {"2015", "\<\"Los Angeles Clippers\"\>", "29.3`", "56.4`", "0.519`"},
+     {"2016", "\<\"Golden State Warriors\"\>", "29.4`", "55.7`", "0.528`"},
+     {"2017", "\<\"Golden State Warriors\"\>", "31.1`", "55.8`", "0.557`"},
+     {"2018", "\<\"Golden State Warriors\"\>", "31.5`", "56.2`", "0.56`"},
+     {"2019", "\<\"Milwaukee Bucks\"\>", "29.9`", "52.9`", "0.565`"},
+     {"2020", "\<\"Milwaukee Bucks\"\>", "29.5`", "52.`", "0.567`"},
+     {"2021", "\<\"Brooklyn Nets\"\>", "29.`", "51.2`", "0.565`"},
+     {"2022", "\<\"Denver Nuggets\"\>", "29.`", "50.4`", "0.575`"},
+     {"2023", "\<\"Sacramento Kings\"\>", "29.8`", "50.9`", "0.586`"}
+    },
+    GridBoxAlignment->{"Columns" -> {{Left}}, "Rows" -> {{Baseline}}},
+    GridBoxDividers->{
+     "Columns" -> {{False}}, "Rows" -> {False, True, {False}, False}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[2.0999999999999996`]}, 
+        Offset[0.27999999999999997`]}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}}],
+   {None, OutputFormsDump`HeadedColumns}],
+  Function[BoxForm`e$, 
+   TableForm[
+   BoxForm`e$, 
+    TableHeadings -> {
+     None, {"Leto", "Najbolj\[SHacek]a ekipa", "2P", "2PA", 
+       "2P%"}}]]]], "Output",
+ CellChangeTimes->{
+  3.8974912120208554`*^9, 3.8974913100478425`*^9, 3.8974913641998158`*^9, {
+   3.8974914410151916`*^9, 3.897491443515769*^9}, 3.8974915666905727`*^9, 
+   3.8974916577888517`*^9, 3.897561959211398*^9, 3.897564860943489*^9},
+ CellLabel->
+  "Out[19]//TableForm=",ExpressionUUID->"3a5c7f7e-a51d-4f58-b90f-\
+1670ff203878"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+Analiza ekipe posebaj
+\
+\>", "Section",
+ CellChangeTimes->{{3.8974917531103773`*^9, 
+  3.89749176108136*^9}},ExpressionUUID->"6f0497db-3027-45b9-a10f-\
+395989dc54df"],
+
+Cell["Poi\[SHacek]\[CHacek]i ekipo", "Text",
+ CellChangeTimes->{{3.897491776954212*^9, 3.8974917824952335`*^9}, 
+   3.897497362561787*^9, {3.8975674870066867`*^9, 
+   3.897567488550003*^9}},ExpressionUUID->"3c7c95c6-6cdb-449d-bb7f-\
+019d3765feae"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+  "dataDirectory", " ", "=", " ", 
+   "\"\<C:\\\\Users\\\\kosmr\\\\OneDrive\\\\Desktop\\\\ROM\\\\Podatki\\\\\
+Ekipe\\\\\>\""}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"teams", " ", "=", " ", 
+   RowBox[{
+    RowBox[{"Import", "[", 
+     RowBox[{
+      RowBox[{"FileNameJoin", "[", 
+       RowBox[{"{", 
+        RowBox[{"dataDirectory", ",", " ", "\"\<NBA_2014ekipe.csv\>\""}], 
+        "}"}], "]"}], ",", " ", "\"\<Data\>\""}], "]"}], "[", 
+    RowBox[{"[", 
+     RowBox[{
+      RowBox[{"2", " ", ";;", " ", 
+       RowBox[{"-", "2"}]}], ",", " ", "2"}], "]"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"years", " ", "=", " ", 
+   RowBox[{"Range", "[", 
+    RowBox[{"2014", ",", " ", "2023"}], "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"labels", " ", "=", " ", 
+    RowBox[{"{", 
+     RowBox[{
+     "\"\<Team\>\"", ",", " ", "\"\<G\>\"", ",", " ", "\"\<MP\>\"", ",", " ", 
+      "\"\<FG\>\"", ",", " ", "\"\<FGA\>\"", ",", " ", "\"\<FG%\>\"", ",", 
+      " ", "\"\<3P\>\"", ",", " ", "\"\<3PA\>\"", ",", " ", "\"\<3P%\>\"", 
+      ",", " ", "\"\<2P\>\"", ",", " ", "\"\<2PA\>\"", ",", " ", 
+      "\"\<2P%\>\"", ",", " ", "\"\<FT\>\"", ",", " ", "\"\<FTA\>\"", ",", 
+      " ", "\"\<FT%\>\"", ",", " ", "\"\<ORB\>\"", ",", " ", "\"\<DRB\>\"", 
+      ",", " ", "\"\<TRB\>\"", ",", " ", "\"\<AST\>\"", ",", " ", 
+      "\"\<STL\>\"", ",", " ", "\"\<BLK\>\"", ",", " ", "\"\<TOV\>\"", ",", 
+      " ", "\"\<PF\>\"", ",", " ", "\"\<PTS\>\""}], "}"}]}], ";"}], 
+  "\n"}], "\n", 
+ RowBox[{"Manipulate", "[", "\n", "    ", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"data", " ", "=", " ", 
+     RowBox[{"{", "}"}]}], ";", "\n", "    ", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{"team", " ", "=!=", " ", "\"\<----\>\""}], ",", "\n", 
+      "        ", 
+      RowBox[{
+       RowBox[{"data", " ", "=", " ", 
+        RowBox[{"Table", "[", "\n", "            ", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"filePath", " ", "=", " ", 
+            RowBox[{"FileNameJoin", "[", 
+             RowBox[{"{", 
+              RowBox[{"dataDirectory", ",", " ", 
+               RowBox[{"\"\<NBA_\>\"", " ", "<>", " ", 
+                RowBox[{"ToString", "[", "i", "]"}], " ", "<>", " ", 
+                "\"\<ekipe.csv\>\""}]}], "}"}], "]"}]}], ";", "\n", 
+           "            ", 
+           RowBox[{"yearData", " ", "=", " ", 
+            RowBox[{"Import", "[", 
+             RowBox[{"filePath", ",", " ", "\"\<Data\>\""}], "]"}]}], ";", 
+           "\n", "            ", 
+           RowBox[{"teamData", " ", "=", " ", 
+            RowBox[{
+             RowBox[{"Select", "[", 
+              RowBox[{
+               RowBox[{"yearData", "[", 
+                RowBox[{"[", 
+                 RowBox[{"2", " ", ";;", " ", 
+                  RowBox[{"-", "2"}]}], "]"}], "]"}], ",", " ", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{"#", "[", 
+                  RowBox[{"[", "2", "]"}], "]"}], " ", "==", " ", "team"}], 
+                " ", "&"}]}], "]"}], "[", 
+             RowBox[{"[", 
+              RowBox[{"All", ",", " ", 
+               RowBox[{"2", " ", ";;"}]}], "]"}], "]"}]}], ";", "\n", 
+           "            ", 
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"Length", "[", "teamData", "]"}], " ", ">", " ", "0"}], 
+             ",", " ", "teamData", ",", " ", 
+             RowBox[{"{", "}"}]}], "]"}]}], ",", "\n", "            ", 
+          RowBox[{"{", 
+           RowBox[{"i", ",", " ", 
+            RowBox[{"Min", "[", "years", "]"}], ",", " ", 
+            RowBox[{"Max", "[", "years", "]"}]}], "}"}]}], "\n", "        ", 
+         "]"}]}], ";"}]}], "\n", "    ", "]"}], ";", "\n", "\n", "    ", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Length", "[", "data", "]"}], " ", ">", " ", "0"}], ",", "\n", 
+      "        ", 
+      RowBox[{
+       RowBox[{"pointData", " ", "=", " ", 
+        RowBox[{"Transpose", "[", 
+         RowBox[{"{", 
+          RowBox[{"years", ",", " ", 
+           RowBox[{"data", "[", 
+            RowBox[{"[", 
+             RowBox[{"All", ",", " ", 
+              RowBox[{"-", "1"}], ",", " ", 
+              RowBox[{"-", "1"}]}], "]"}], "]"}]}], "}"}], "]"}]}], ";", "\n",
+        "        ", 
+       RowBox[{"assistData", " ", "=", " ", 
+        RowBox[{"Transpose", "[", 
+         RowBox[{"{", 
+          RowBox[{"years", ",", " ", 
+           RowBox[{"data", "[", 
+            RowBox[{"[", 
+             RowBox[{"All", ",", " ", 
+              RowBox[{"-", "1"}], ",", " ", "19"}], "]"}], "]"}]}], "}"}], 
+         "]"}]}], ";", "\n", "        ", 
+       RowBox[{"reboundData", " ", "=", " ", 
+        RowBox[{"Transpose", "[", 
+         RowBox[{"{", 
+          RowBox[{"years", ",", " ", 
+           RowBox[{"data", "[", 
+            RowBox[{"[", 
+             RowBox[{"All", ",", " ", 
+              RowBox[{"-", "1"}], ",", " ", "18"}], "]"}], "]"}]}], "}"}], 
+         "]"}]}], ";", "\n", "\n", "        ", 
+       RowBox[{"Grid", "[", 
+        RowBox[{"{", "\n", "            ", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"ListLinePlot", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{
+              "pointData", ",", " ", "assistData", ",", " ", "reboundData"}], 
+              "}"}], ",", "\n", "                ", 
+             RowBox[{"PlotLegends", " ", "->", " ", 
+              RowBox[{"{", 
+               RowBox[{
+               "\"\<To\[CHacek]ke\>\"", ",", " ", "\"\<Asistence\>\"", ",", 
+                " ", "\"\<Skoki\>\""}], "}"}]}], ",", "\n", 
+             "                ", 
+             RowBox[{"Frame", " ", "->", " ", "True"}], ",", "\n", 
+             "                ", 
+             RowBox[{"FrameLabel", " ", "->", " ", 
+              RowBox[{"{", 
+               RowBox[{"\"\<Leto\>\"", ",", " ", "\"\<Vrednost\>\""}], 
+               "}"}]}], ",", "\n", "                ", 
+             RowBox[{"ImageSize", " ", "->", " ", "400"}], ",", "\n", 
+             "                ", 
+             RowBox[{"PlotStyle", " ", "->", " ", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"Directive", "[", 
+                 RowBox[{"Blue", ",", " ", "Thick"}], "]"}], ",", " ", 
+                RowBox[{"Directive", "[", 
+                 RowBox[{"Red", ",", " ", "Thick"}], "]"}], ",", " ", 
+                RowBox[{"Directive", "[", 
+                 RowBox[{"Green", ",", " ", "Thick"}], "]"}]}], "}"}]}], ",", 
+             "\n", "                ", 
+             RowBox[{"Epilog", " ", "->", " ", 
+              RowBox[{"{", "\n", "                           ", 
+               RowBox[{
+                RowBox[{"{", 
+                 RowBox[{"Blue", ",", " ", 
+                  RowBox[{"PointSize", "[", "Large", "]"}], ",", " ", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"Tooltip", "[", 
+                    RowBox[{
+                    RowBox[{"Point", "[", "#", "]"}], ",", " ", "#"}], "]"}], 
+                    " ", "&"}], " ", "/@", " ", "pointData"}]}], "}"}], ",", 
+                "\n", "                           ", 
+                RowBox[{"{", 
+                 RowBox[{"Red", ",", " ", 
+                  RowBox[{"PointSize", "[", "Large", "]"}], ",", " ", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"Tooltip", "[", 
+                    RowBox[{
+                    RowBox[{"Point", "[", "#", "]"}], ",", " ", "#"}], "]"}], 
+                    " ", "&"}], " ", "/@", " ", "assistData"}]}], "}"}], ",", 
+                "\n", "                           ", 
+                RowBox[{"{", 
+                 RowBox[{"Green", ",", " ", 
+                  RowBox[{"PointSize", "[", "Large", "]"}], ",", " ", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"Tooltip", "[", 
+                    RowBox[{
+                    RowBox[{"Point", "[", "#", "]"}], ",", " ", "#"}], "]"}], 
+                    " ", "&"}], " ", "/@", " ", "reboundData"}]}], "}"}]}], 
+               "\n", "                         ", "}"}]}]}], "\n", "\n", 
+            "            ", "]"}], "}"}], ",", "\n", "            ", 
+          RowBox[{"{", 
+           RowBox[{"Grid", "[", 
+            RowBox[{
+             RowBox[{"Join", "[", 
+              RowBox[{
+               RowBox[{"{", "labels", "}"}], ",", " ", 
+               RowBox[{"Flatten", "[", 
+                RowBox[{"data", ",", " ", "1"}], "]"}]}], "]"}], ",", " ", 
+             RowBox[{"Frame", " ", "->", " ", "All"}]}], "]"}], "}"}]}], "\n",
+          "        ", "}"}], "]"}]}], ",", "\n", "\n", "        ", 
+      "\"\<\>\""}], "\n", "    ", "]"}]}], ",", "\n", "\n", "    ", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"team", ",", " ", "\"\<----\>\"", ",", " ", "\"\<Ekipa:\>\""}], 
+      "}"}], ",", " ", 
+     RowBox[{"Prepend", "[", 
+      RowBox[{"teams", ",", " ", "\"\<----\>\""}], "]"}]}], "}"}], ",", "\n", 
+   "\n", "    ", 
+   RowBox[{"TrackedSymbols", " ", ":>", " ", 
+    RowBox[{"{", "team", "}"}]}]}], "\n", "]"}]}], "Code",
+ CellChangeTimes->{
+  3.897567271781744*^9, {3.897567413374709*^9, 3.897567451541964*^9}},
+ CellLabel->
+  "In[238]:=",ExpressionUUID->"a0ab2ac9-b662-480a-9540-8b6042feffb9"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`team$$ = "Toronto Raptors", Typeset`show$$ =
+     True, Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{{
+       Hold[$CellContext`team$$], "----", "Ekipa:"}, {
+      "----", "Atlanta Hawks", "Boston Celtics", "Brooklyn Nets", 
+       "Charlotte Hornets", "Chicago Bulls", "Cleveland Cavaliers", 
+       "Dallas Mavericks", "Denver Nuggets", "Detroit Pistons", 
+       "Golden State Warriors", "Houston Rockets", "Indiana Pacers", 
+       "Los Angeles Clippers", "Los Angeles Lakers", "Memphis Grizzlies", 
+       "Miami Heat", "Milwaukee Bucks", "Minnesota Timberwolves", 
+       "New Orleans Pelicans", "New York Knicks", "Oklahoma City Thunder", 
+       "Orlando Magic", "Philadelphia 76ers", "Phoenix Suns", 
+       "Portland Trail Blazers", "Sacramento Kings", "San Antonio Spurs", 
+       "Toronto Raptors", "Utah Jazz", "Washington Wizards"}}}, 
+    Typeset`size$$ = {929., {346.23403309800193`, 351.965966901998}}, 
+    Typeset`update$$ = 0, Typeset`initDone$$, Typeset`skipInitDone$$ = True}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, "Variables" :> {$CellContext`team$$ = "----"}, 
+      "ControllerVariables" :> {}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, 
+      "Body" :> ($CellContext`data = {}; 
+       If[$CellContext`team$$ =!= 
+         "----", $CellContext`data = 
+          Table[$CellContext`filePath = 
+             FileNameJoin[{$CellContext`dataDirectory, "NBA_" <> 
+                ToString[$CellContext`i] <> 
+                "ekipe.csv"}]; $CellContext`yearData = 
+             Import[$CellContext`filePath, "Data"]; $CellContext`teamData = 
+             Part[
+               Select[
+                Part[$CellContext`yearData, 
+                 Span[2, -2]], Part[#, 2] == $CellContext`team$$& ], All, 
+               Span[2, All]]; 
+            If[Length[$CellContext`teamData] > 
+              0, $CellContext`teamData, {}], {$CellContext`i, 
+             Min[$CellContext`years], 
+             Max[$CellContext`years]}]; Null]; 
+       If[Length[$CellContext`data] > 
+         0, $CellContext`pointData = Transpose[{$CellContext`years, 
+             Part[$CellContext`data, All, -1, -1]}]; $CellContext`assistData = 
+          Transpose[{$CellContext`years, 
+             Part[$CellContext`data, All, -1, 19]}]; $CellContext`reboundData = 
+          Transpose[{$CellContext`years, 
+             Part[$CellContext`data, All, -1, 18]}]; Grid[{{
+             
+             ListLinePlot[{$CellContext`pointData, $CellContext`assistData, \
+$CellContext`reboundData}, 
+              PlotLegends -> {"To\[CHacek]ke", "Asistence", "Skoki"}, Frame -> 
+              True, FrameLabel -> {"Leto", "Vrednost"}, ImageSize -> 400, 
+              PlotStyle -> {
+                Directive[Blue, Thick], 
+                Directive[Red, Thick], 
+                Directive[Green, Thick]}, Epilog -> {{Blue, 
+                 PointSize[Large], 
+                 Map[Tooltip[
+                   Point[#], #]& , $CellContext`pointData]}, {Red, 
+                 PointSize[Large], 
+                 Map[Tooltip[
+                   Point[#], #]& , $CellContext`assistData]}, {Green, 
+                 PointSize[Large], 
+                 Map[Tooltip[
+                   Point[#], #]& , $CellContext`reboundData]}}]}, {
+             Grid[
+              Join[{$CellContext`labels}, 
+               Flatten[$CellContext`data, 1]], Frame -> All]}}], ""]), 
+      "Specifications" :> {{{$CellContext`team$$, "----", "Ekipa:"}, {
+         "----", "Atlanta Hawks", "Boston Celtics", "Brooklyn Nets", 
+          "Charlotte Hornets", "Chicago Bulls", "Cleveland Cavaliers", 
+          "Dallas Mavericks", "Denver Nuggets", "Detroit Pistons", 
+          "Golden State Warriors", "Houston Rockets", "Indiana Pacers", 
+          "Los Angeles Clippers", "Los Angeles Lakers", "Memphis Grizzlies", 
+          "Miami Heat", "Milwaukee Bucks", "Minnesota Timberwolves", 
+          "New Orleans Pelicans", "New York Knicks", "Oklahoma City Thunder", 
+          "Orlando Magic", "Philadelphia 76ers", "Phoenix Suns", 
+          "Portland Trail Blazers", "Sacramento Kings", "San Antonio Spurs", 
+          "Toronto Raptors", "Utah Jazz", "Washington Wizards"}}}, 
+      "Options" :> {TrackedSymbols :> {$CellContext`team$$}}, 
+      "DefaultOptions" :> {}],
+     ImageSizeCache->{979., {394.13403309800196`, 399.86596690199804`}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{3.8975672724895077`*^9, 3.897567416880853*^9, 
+  3.897567454642247*^9},
+ CellLabel->
+  "Out[242]=",ExpressionUUID->"6eea12ae-9de4-4a9e-ae5f-e293abfbb0a8"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1440., 741.75},
+WindowMargins->{{-6, Automatic}, {-6, Automatic}},
+FrontEndVersion->"13.1 for Microsoft Windows (64-bit) (August 22, 2022)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"fabb11ef-bedc-44a5-9307-862700660b7a"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 204, 3, 98, "Title",ExpressionUUID->"4eeb37b8-1bdc-499c-9de9-e3016d4c3fc7"],
+Cell[787, 27, 205, 6, 85, "Subtitle",ExpressionUUID->"eb83e5e9-3fcf-4939-b571-6b23657d85af"],
+Cell[CellGroupData[{
+Cell[1017, 37, 175, 6, 105, "Section",ExpressionUUID->"38d06b4a-202d-475d-a188-0720245dc2bb"],
+Cell[1195, 45, 443, 8, 58, "Text",ExpressionUUID->"c65ab7be-67c7-4582-8239-c6d9c05b800b"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1675, 58, 180, 6, 105, "Section",ExpressionUUID->"e8f185f5-355a-4d30-8712-f8768ef6db63"],
+Cell[1858, 66, 276, 6, 35, "Text",ExpressionUUID->"154da5d3-17ed-4e9b-a1e0-065f5e9a907f"],
+Cell[CellGroupData[{
+Cell[2159, 76, 5860, 149, 655, "Code",ExpressionUUID->"a6813821-4e55-4bae-8b1f-fb631c44473a"],
+Cell[8022, 227, 16638, 415, 404, "Output",ExpressionUUID->"85522a9d-d2f4-4ee7-8eb9-f38702f70f85"]
+}, Open  ]],
+Cell[24675, 645, 445, 11, 104, "Text",ExpressionUUID->"77afcd68-5e9a-4ed7-bc9c-cb047880ab80"],
+Cell[CellGroupData[{
+Cell[25145, 660, 2926, 73, 427, "Code",ExpressionUUID->"0c11aef9-e86a-46a1-bce1-0ac58a67003e"],
+Cell[28074, 735, 8378, 201, 399, "Output",ExpressionUUID->"3130f7d1-8095-47eb-b56d-240066cae817"]
+}, Open  ]],
+Cell[36467, 939, 342, 7, 35, "Text",ExpressionUUID->"cb6a14e6-ae0d-4e86-a6b0-b25cfe69649c"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[36846, 951, 164, 3, 67, "Section",ExpressionUUID->"a1565bcd-dd5c-43bd-9d46-05eacde6a584"],
+Cell[37013, 956, 320, 8, 58, "Text",ExpressionUUID->"06abce79-fef6-4aad-bfdc-260e431a9c8b"],
+Cell[CellGroupData[{
+Cell[37358, 968, 2726, 71, 281, "Code",ExpressionUUID->"002e38f4-2f07-415e-a2dc-82370c1fd8d5"],
+Cell[40087, 1041, 1636, 42, 220, "Output",ExpressionUUID->"c691893c-e82f-4e0f-affb-34a257f3aadb"]
+}, Open  ]],
+Cell[41738, 1086, 273, 6, 35, "Text",ExpressionUUID->"d64b532f-eb15-43bf-b148-614a3e7d7123"],
+Cell[CellGroupData[{
+Cell[42036, 1096, 3390, 84, 332, "Code",ExpressionUUID->"43780652-e2c7-42d9-a53d-a99df48c7379"],
+Cell[45429, 1182, 1825, 46, 218, "Output",ExpressionUUID->"0de5a9c9-db89-4c36-ad4c-009f5db8bc63"]
+}, Open  ]],
+Cell[47269, 1231, 272, 7, 58, "Text",ExpressionUUID->"5c697d92-4895-4e57-8564-52310d79ec55"],
+Cell[CellGroupData[{
+Cell[47566, 1242, 3647, 89, 332, "Code",ExpressionUUID->"ec1cc0fc-464d-4aae-9a31-e8df089bf86c"],
+Cell[51216, 1333, 1974, 48, 218, "Output",ExpressionUUID->"3a5c7f7e-a51d-4f58-b90f-1670ff203878"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[53239, 1387, 176, 6, 105, "Section",ExpressionUUID->"6f0497db-3027-45b9-a10f-395989dc54df"],
+Cell[53418, 1395, 247, 4, 35, "Text",ExpressionUUID->"3c7c95c6-6cdb-449d-bb7f-019d3765feae"],
+Cell[CellGroupData[{
+Cell[53690, 1403, 9322, 218, 841, "Code",ExpressionUUID->"a0ab2ac9-b662-480a-9540-8b6042feffb9"],
+Cell[63015, 1623, 5328, 100, 813, "Output",ExpressionUUID->"6eea12ae-9de4-4a9e-ae5f-e293abfbb0a8"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
